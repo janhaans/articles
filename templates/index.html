@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    {{template "header.html" .}}
+
+    <body>
+        <div class="container">
+            <h1>All Articles</h1>
+            {{ range $key, $value := .payload}}
+                <a href="/article/view/{{$value.ID}}">
+                    <!--Display the title of the article -->
+                    <h2>{{$value.Title}}</h2>
+                </a>
+                <!--Display the content of the article-->
+                <p>{{$value.Content}}</p>
+            {{ end }}
+        </div>
+    </body>
+</html>
