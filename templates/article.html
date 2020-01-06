@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    {{template "header.html" .}}
+
+    <body>
+        <div class="container">
+            <h1>Article {{ .payload.ID }}</h1>
+            <h2>{{ .payload.Title }}</h2>
+            <p>{{ .payload.Content }}</p>
+        </div>
+    </body>
+</html>

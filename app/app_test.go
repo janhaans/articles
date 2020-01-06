@@ -18,3 +18,14 @@ func TestShowIndexPage(t *testing.T) {
 	assert.EqualValues(t, http.StatusOK, res.Code)
 	assert.EqualValues(t, "text/html; charset=utf-8", res.HeaderMap.Get("Content-Type"))
 }
+
+func TestShowArticlePage(t *testing.T) {
+	router := setupRouter()
+	req, err := http.NewRequest("GET", "/article/view/1", nil)
+	res := httptest.NewRecorder()
+	router.ServeHTTP(res, req)
+
+	assert.Nil(t, err)
+	assert.EqualValues(t, http.StatusOK, res.Code)
+	assert.EqualValues(t, "text/html; charset=utf-8", res.HeaderMap.Get("Content-Type"))
+}

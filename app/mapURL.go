@@ -7,4 +7,5 @@ import (
 
 func mapURL(router *gin.Engine) {
 	router.GET("/", controller.ShowIndexPage)
+	router.GET("/article/view/:id", controller.ShowArticlePage)
 }

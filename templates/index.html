@@ -6,7 +6,7 @@
     <body>
         <div class="container">
             <h1>All Articles</h1>
-            {{ range $key, $value := .payload}}
+            {{ range $value := .payload}}
                 <a href="/article/view/{{$value.ID}}">
                     <!--Display the title of the article -->
                     <h2>{{$value.Title}}</h2>
