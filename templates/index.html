@@ -6,14 +6,14 @@
     <body>
         <div class="container">
             <h1>All Articles</h1>
-            {{ range $value := .payload}}
-                <a href="/article/view/{{$value.ID}}">
-                    <!--Display the title of the article -->
-                    <h2>{{$value.Title}}</h2>
-                </a>
-                <!--Display the content of the article-->
-                <p>{{$value.Content}}</p>
-            {{ end }}
+                {{ range .payload }}
+                    <a href="/article/view/{{.ID}}">
+                        <!--Display the title of the article -->
+                        <h2>{{.Title}}</h2>
+                    </a>
+                    <!--Display the content of the article-->
+                    <p>{{.Content}}</p>
+                {{ end }}
         </div>
     </body>
 </html>

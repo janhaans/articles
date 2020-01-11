@@ -7,19 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	tmpArticles Articles
-)
-
 func TestGetAllArticles(t *testing.T) {
-	SaveArticles()
 	MockArticles()
-	defer RestoreArticles()
-
+	defer UndoMockArticles()
 	sOfArticles, err := GetAllArticles()
-
-	//fmt.Println(articles)
-	//fmt.Println(sOfArticles)
 
 	assert.Nil(t, err)
 	assert.NotNil(t, sOfArticles)
@@ -31,9 +22,8 @@ func TestGetAllArticles(t *testing.T) {
 	}
 }
 func TestEmptyArticles(t *testing.T) {
-	SaveArticles()
 	MockEmptyArticles()
-	defer RestoreArticles()
+	defer UndoMockArticles()
 
 	sOfArticles, err := GetAllArticles()
 
@@ -42,10 +32,8 @@ func TestEmptyArticles(t *testing.T) {
 }
 
 func TestGetArticle(t *testing.T) {
-	SaveArticles()
 	MockArticles()
-	defer RestoreArticles()
-
+	defer UndoMockArticles()
 	id := 1
 	article, err := GetArticle(id)
 
@@ -58,32 +46,11 @@ func TestGetArticle(t *testing.T) {
 }
 
 func TestNotFoundArticle(t *testing.T) {
-	SaveArticles()
 	MockArticles()
-	defer RestoreArticles()
-
+	defer UndoMockArticles()
 	id := 3
 	article, err := GetArticle(id)
 
 	assert.Nil(t, article)
-	assert.EqualError(t, err, fmt.Sprintf("No article with id = %d found", id))
-}
-
-func SaveArticles() {
-	tmpArticles = articles
-}
-
-func RestoreArticles() {
-	articles = tmpArticles
-}
-
-func MockEmptyArticles() {
-	articles = Articles{}
-}
-
-func MockArticles() {
-	articles = Articles{
-		1: &Article{1, "mock title 1", "mock description 1"},
-		2: &Article{2, "mock title 2", "mock description 2"},
-	}
+	assert.EqualError(t, err, fmt.Sprintf("Article with id = %d not found", id))
 }

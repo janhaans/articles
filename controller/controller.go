@@ -10,12 +10,25 @@ import (
 
 //ShowIndexPage is the index page and shows all articles
 func ShowIndexPage(c *gin.Context) {
-	articles, _ := model.GetAllArticles()
-	c.HTML(http.StatusOK, "index.html", gin.H{"title": "Home Page", "payload": articles})
+	articles, err := model.GetAllArticles()
+	if err != nil {
+		c.HTML(http.StatusOK, "error.html", gin.H{"title": "Article", "errorMsg": err.Error()})
+	} else {
+		c.HTML(http.StatusOK, "index.html", gin.H{"title": "Home Page", "payload": articles})
+	}
 }
 
+//ShowArticlePage shows an article
 func ShowArticlePage(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
-	article, _ := model.GetArticle(id)
-	c.HTML(http.StatusOK, "article.html", gin.H{"title": "Article", "payload": article})
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{"title": "Article", "errorMsg": "Bad request: latest path element must be integer"})
+	} else {
+		article, err := model.GetArticle(id)
+		if article == nil {
+			c.HTML(http.StatusOK, "error.html", gin.H{"title": "Article", "errorMsg": err.Error()})
+		} else {
+			c.HTML(http.StatusOK, "article.html", gin.H{"title": "Article", "payload": article})
+		}
+	}
 }
